@@ -8,6 +8,10 @@ First destination have responsibility of counting messages and calculating total
 we used a file for storing counters for recovering data in case of shutting down the service,
 and we flush data to it every 1 minute not for every message to get best performance 
 ### Destination 2 (PostgreSQL,TimescaleDB)
+Used timescaleDB to get the best performance <br> 
+Used PGX because this package have the best performance for interaction to postgres databases . <br>
+Flushing data to database using batch inserting because inserting row by row for big amount of data is not a good idea.
+
 
 
 # Architecture and Design Patterns
