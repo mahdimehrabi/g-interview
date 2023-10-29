@@ -9,7 +9,8 @@ import (
 
 // Env has environment stored
 type Env struct {
-	ServerPort string
+	ServerPort    string
+	BrokerAddress string
 }
 
 // NewEnv creates a new environment
@@ -25,4 +26,5 @@ func (env *Env) LoadEnv() {
 		log.Fatal("Error loading .env file")
 	}
 	env.ServerPort = os.Getenv("ServerPort")
+	env.BrokerAddress = os.Getenv("BrokerAddress")
 }

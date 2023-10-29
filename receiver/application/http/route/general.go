@@ -1,20 +1,19 @@
 package route
 
 import (
+	"github.com/mahdimehrabi/graph-interview/receiver/application/http/controller/general"
 	"net/http"
-
-	"github.com/mahdimehrabi/graph-interview/receiver/application/http/controller"
 )
 
 type General struct {
 	mux               *http.ServeMux
-	generalController *controller.General
+	generalController *general.General
 }
 
 func NewGeneral(mux *http.ServeMux) General {
 	return General{
 		mux:               mux,
-		generalController: controller.NewGeneral(),
+		generalController: general.NewGeneral(),
 	}
 }
 
