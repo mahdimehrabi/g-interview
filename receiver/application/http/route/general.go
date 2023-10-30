@@ -1,8 +1,9 @@
 package route
 
 import (
-	"github.com/mahdimehrabi/graph-interview/receiver/application/http/controller/general"
 	"net/http"
+
+	"github.com/mahdimehrabi/graph-interview/receiver/application/http/controller/general"
 )
 
 type General struct {
@@ -17,6 +18,6 @@ func NewGeneral(mux *http.ServeMux) General {
 	}
 }
 
-func (g General) Handle() {
-	http.HandleFunc("/api/ping", g.generalController.Ping)
+func (g *General) Handle() {
+	g.mux.HandleFunc("/api/ping", g.generalController.Ping)
 }

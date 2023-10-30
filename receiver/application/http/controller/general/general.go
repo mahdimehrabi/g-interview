@@ -13,5 +13,5 @@ func NewGeneral() *General {
 }
 
 func (g General) Ping(w http.ResponseWriter, _ *http.Request) {
-	response.GenResponse(w, map[string]string{"ping": "pong🏓"}, "")
+	response.SuccessResponse(w, map[string]string{"ping": "pong🏓"}, "pong")
 }

@@ -1,8 +1,9 @@
 package route
 
 import (
-	"github.com/mahdimehrabi/graph-interview/receiver/application/http/controller/message"
 	"net/http"
+
+	"github.com/mahdimehrabi/graph-interview/receiver/application/http/controller/message"
 )
 
 type Message struct {
@@ -18,5 +19,5 @@ func NewMessage(mux *http.ServeMux) *Message {
 }
 
 func (g Message) Handle() {
-	http.HandleFunc("/api/send", g.messageController.Send)
+	g.mux.HandleFunc("/api/message/send", g.messageController.Send)
 }

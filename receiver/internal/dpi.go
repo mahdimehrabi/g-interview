@@ -5,8 +5,7 @@ import (
 	infrastructures "github.com/mahdimehrabi/graph-interview/receiver/internal/infrastructure"
 )
 
-//singleton dependency injection
-
+// singleton dependency injection
 var DPI *dpi
 
 type dpi struct {

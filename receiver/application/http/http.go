@@ -9,10 +9,16 @@ import (
 	infrastructures "github.com/mahdimehrabi/graph-interview/receiver/internal/infrastructure"
 )
 
-func RunServer(env *infrastructures.Env) {
-	mx := http.NewServeMux()
+func HandleRoutes(mx *http.ServeMux) {
 	general := route.NewGeneral(mx)
 	general.Handle()
+	message := route.NewMessage(mx)
+	message.Handle()
+}
+
+func RunServer(env *infrastructures.Env) {
+	mx := http.NewServeMux()
+	HandleRoutes(mx)
 	server := &http.Server{
 		Addr:              ":" + env.ServerPort,
 		Handler:           mx,
