@@ -18,7 +18,7 @@ func NewSocket(address string) *Socket {
 }
 
 func (s *Socket) Connect() error {
-	conn, err := net.Dial("tcp", ":8000")
+	conn, err := net.Dial("tcp", s.address)
 	if err != nil {
 		return err
 	}
@@ -33,6 +33,11 @@ func (s *Socket) Disconnect() error {
 }
 
 func (s *Socket) SendJSON(data any) error {
+	if !s.connected {
+		if err := s.Connect(); err != nil {
+			return err
+		}
+	}
 	e := json.NewEncoder(s.conn)
 	if err := e.Encode(data); err != nil {
 		s.connected = false
