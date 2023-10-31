@@ -25,11 +25,6 @@ I used singleton design pattern to access instances
 that have interaction with limited resources.
 the files with name "dpi" in application layers are exactly for this purpose.
 
-## Saga Pattern
-Since we have two destination services I decided to have a simple saga pattern implementation
-for interaction of broker and destinations services.
-
-
 
 # Extra features
 #### implemented unit test for all services

@@ -24,7 +24,7 @@ func RunServer(env *infrastructures.Env) {
 		Handler:           mx,
 		ReadHeaderTimeout: time.Second * 5, // prevent Slow-loris attack
 	}
-	log.Printf("running http REST API on port \":%s\" 🏁", env.ServerPort)
+	log.Printf("running socket REST API on port \":%s\" 🏁", env.ServerPort)
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
