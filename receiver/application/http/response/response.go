@@ -35,11 +35,11 @@ func SuccessResponse(w http.ResponseWriter, data any, message string) {
 }
 
 func InternalErrorResponse(w http.ResponseWriter) {
-	GenResponse(w, http.StatusOK, nil, "internal server error", []string{})
+	GenResponse(w, http.StatusInternalServerError, nil, "internal server error", []string{})
 }
 
 func BadRequestErrorResponse(w http.ResponseWriter) {
-	GenResponse(w, http.StatusOK, nil, "bad request", []string{})
+	GenResponse(w, http.StatusBadRequest, nil, "bad request", []string{})
 }
 
 func MethodNotAllowedErrorResponse(w http.ResponseWriter) {
