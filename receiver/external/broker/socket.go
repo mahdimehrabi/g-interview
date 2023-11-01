@@ -32,7 +32,7 @@ func (s *Socket) Disconnect() error {
 	return s.conn.Close()
 }
 
-func (s *Socket) SendJSON(data any) error {
+func (s *Socket) SendJSONGetResponse(data any, msgID string) error {
 	if !s.connected {
 		if err := s.Connect(); err != nil {
 			return err
@@ -43,5 +43,6 @@ func (s *Socket) SendJSON(data any) error {
 		s.connected = false
 		return err
 	}
+
 	return nil
 }

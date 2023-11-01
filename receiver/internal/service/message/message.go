@@ -2,6 +2,7 @@ package message
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/repository/message"
@@ -21,6 +22,7 @@ func NewMessage(messageRepo message.Message) *Message {
 
 func (m Message) Save(msg *entity.Message) error {
 	if err := m.messageRepo.Save(msg); err != nil {
+		fmt.Println("error saving message:", err.Error())
 		return ErrMessageInternal
 	}
 	return nil
