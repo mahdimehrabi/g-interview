@@ -27,7 +27,7 @@ func RunServer(env *infrastructures.Env) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("broker listening to port :%d 🤝" + env.ServerPort)
+	fmt.Printf("broker listening to port :%s 🤝", env.ServerPort)
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
