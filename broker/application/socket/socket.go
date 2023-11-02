@@ -12,11 +12,13 @@ func Handle(conn net.Conn) {
 	for {
 		req := dto.Request{}
 		decoder := json.NewDecoder(conn)
-		err := decoder.Decode(req)
+		err := decoder.Decode(&req)
 		if err != nil {
+			fmt.Println("error extracting data from socket", err)
 			fmt.Printf("connection closed with %s", conn.RemoteAddr())
 			break
 		}
+		HandleRoute(conn, req)
 	}
 	conn.Close()
 }

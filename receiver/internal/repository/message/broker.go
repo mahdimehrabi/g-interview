@@ -2,11 +2,14 @@ package message
 
 import (
 	"errors"
+	"github.com/google/uuid"
 	extBroker "github.com/mahdimehrabi/graph-interview/receiver/external/broker"
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
+	"time"
 )
 
 const workerCount = 10
+const saveMessageMethod = "save_message"
 
 var ErrResourceNotAvailable = errors.New("resource is not available")
 
@@ -33,8 +36,9 @@ func (b broker) SaveQueue() {
 func (b broker) savingWorker() {
 	for {
 		msg := <-b.queue
-		if err := b.socket.SendJSONGetResponse(msg, msg.ID.String()); err != nil {
-			b.queue <- msg //add msg to end of the queue in case of error
+		if err := b.socket.SendWaitJSON(msg, saveMessageMethod, uuid.New().String()); err != nil {
+			b.queue <- msg                     //add msg to end of the queue in case of error
+			time.Sleep(time.Millisecond * 100) //socket resend cool down
 		}
 	}
 }

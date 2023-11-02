@@ -2,11 +2,11 @@ package message
 
 import (
 	"encoding/json"
+	"github.com/mahdimehrabi/graph-interview/receiver/internal"
 	"net/http"
 
 	"github.com/mahdimehrabi/graph-interview/receiver/application/http/dto"
 	"github.com/mahdimehrabi/graph-interview/receiver/application/http/response"
-	messageRepo "github.com/mahdimehrabi/graph-interview/receiver/internal/repository/message"
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/service/message"
 )
 
@@ -16,7 +16,7 @@ type Message struct {
 
 func NewMessage() *Message {
 	return &Message{
-		message.NewMessage(messageRepo.NewBroker()),
+		message.NewMessage(internal.DPI.BrokerRepository),
 	}
 }
 

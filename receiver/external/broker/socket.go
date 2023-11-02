@@ -32,14 +32,19 @@ func (s *Socket) Disconnect() error {
 	return s.conn.Close()
 }
 
-func (s *Socket) SendJSONGetResponse(data any, msgID string) error {
+func (s *Socket) SendWaitJSON(data any, method string, msgID string) error {
+	req := Request{
+		Method: method,
+		Data:   data,
+		ID:     msgID,
+	}
 	if !s.connected {
 		if err := s.Connect(); err != nil {
 			return err
 		}
 	}
 	e := json.NewEncoder(s.conn)
-	if err := e.Encode(data); err != nil {
+	if err := e.Encode(req); err != nil {
 		s.connected = false
 		return err
 	}
