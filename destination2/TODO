@@ -1,5 +1,0 @@
-flush size and count to database
-flush data on graceful shutdown
-
-average time of processing message
-used timescale database because we

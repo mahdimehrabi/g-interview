@@ -1,14 +1,14 @@
-package message
+package destination
 
 import (
 	"errors"
 	"fmt"
-	"time"
-
 	"github.com/google/uuid"
-	brokerSocket "github.com/mahdimehrabi/graph-interview/receiver/external/broker"
-	"github.com/mahdimehrabi/graph-interview/receiver/external/utils"
-	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
+	brokerSocket "github.com/mahdimehrabi/graph-interview/broker/external/destination"
+	"github.com/mahdimehrabi/graph-interview/broker/external/utils"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
+	"time"
 )
 
 const (
@@ -18,13 +18,13 @@ const (
 
 var ErrResourceNotAvailable = errors.New("resource is not available")
 
-type broker struct {
+type destination struct {
 	queue   chan *entity.Message
 	sockets []*brokerSocket.Socket
 }
 
-func NewBroker(sockets []*brokerSocket.Socket) Message {
-	b := &broker{
+func NewDestination(sockets []*brokerSocket.Socket) message.Message {
+	b := &destination{
 		sockets: sockets,
 		queue:   make(chan *entity.Message, 10000),
 	}
@@ -32,13 +32,13 @@ func NewBroker(sockets []*brokerSocket.Socket) Message {
 	return b
 }
 
-func (b broker) SaveQueue() {
+func (b destination) SaveQueue() {
 	for i := 0; i < workerCount; i++ {
 		go b.savingWorker()
 	}
 }
 
-func (b broker) savingWorker() {
+func (b destination) savingWorker() {
 	for {
 		msg := <-b.queue
 		id := uuid.New().String()
@@ -50,11 +50,11 @@ func (b broker) savingWorker() {
 			time.Sleep(time.Millisecond * 100) // socket resend cool down
 			continue
 		}
-		fmt.Printf("message %s saved succesfuly🥳 \n", msg.Message)
+		fmt.Printf("message %s saved succesfuly😲 \n", id)
 	}
 }
 
-func (b broker) Save(msg *entity.Message) error {
+func (b destination) Save(msg *entity.Message) error {
 	if len(b.queue) >= 10000 {
 		return ErrResourceNotAvailable
 	}

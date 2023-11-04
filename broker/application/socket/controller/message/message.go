@@ -3,7 +3,7 @@ package message
 import (
 	"github.com/mahdimehrabi/graph-interview/broker/application/socket/dto"
 	"github.com/mahdimehrabi/graph-interview/broker/application/socket/response"
-	messageRepo "github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
+	"github.com/mahdimehrabi/graph-interview/broker/internal"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/service/message"
 	"github.com/mitchellh/mapstructure"
 	"net"
@@ -15,7 +15,7 @@ type Message struct {
 
 func NewMessage() *Message {
 	return &Message{
-		message.NewMessage(messageRepo.NewBroker()),
+		message.NewMessage(internal.DPI.BrokerRepository),
 	}
 }
 
@@ -25,10 +25,10 @@ func (g Message) Save(conn net.Conn, req dto.Request) {
 		response.BadRequestErrorResponse(conn, req.ID)
 		return
 	}
-	//msgEnt := msgReq.ToModel()
-	//if err := g.messageService.Save(msgEnt); err != nil {
-	//	response.InternalErrorResponse(conn, req.ID)
-	//	return
-	//}
+	msgEnt := msgReq.ToModel()
+	if err := g.messageService.Save(msgEnt); err != nil {
+		response.InternalErrorResponse(conn, req.ID)
+		return
+	}
 	response.SuccessResponse(conn, nil, req.ID, "message saved successfully")
 }

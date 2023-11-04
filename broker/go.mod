@@ -3,6 +3,7 @@ module github.com/mahdimehrabi/graph-interview/broker
 go 1.21.1
 
 require (
+	github.com/google/uuid v1.4.0
 	github.com/joho/godotenv v1.5.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/stretchr/testify v1.8.4
