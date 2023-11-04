@@ -9,7 +9,7 @@ import (
 
 var (
 	ErrForbidden  = errors.New("access denied")
-	ErrInternal   = errors.New("internal server error in destination")
+	ErrInternal   = errors.New("internal server error in broker")
 	ErrBadRequest = errors.New("bad request,please check your request data")
 	ErrUndefined  = errors.New("undefined error")
 )
@@ -62,7 +62,7 @@ func (s *Socket) SaveResults() {
 	}
 }
 
-func (s *Socket) SendWaitJSON(data any, method string, msgID string) error {
+func (s *Socket) SendWaitJSON(data any, method string, msgID string) (*Result, error) {
 	req := Request{
 		Method: method,
 		Data:   data,
@@ -70,19 +70,19 @@ func (s *Socket) SendWaitJSON(data any, method string, msgID string) error {
 	}
 	if !s.connected {
 		if err := s.Connect(); err != nil {
-			return err
+			return nil, err
 		}
 	}
 	e := json.NewEncoder(s.conn)
 	if err := e.Encode(req); err != nil {
 		s.connected = false
-		return err
+		return nil, err
 	}
 	// get response
 	return s.getResult(msgID)
 }
 
-func (s *Socket) getResult(msgID string) error {
+func (s *Socket) getResult(msgID string) (*Result, error) {
 	for {
 		s.getResultCond.L.Lock()
 		s.getResultCond.Wait()
@@ -97,15 +97,15 @@ func (s *Socket) getResult(msgID string) error {
 		s.getResultCond.L.Unlock()
 		switch data.Status {
 		case StatusOk:
-			return nil
+			return &data, nil
 		case StatusForbidden:
-			return ErrForbidden
+			return &data, ErrForbidden
 		case StatusInternalError:
-			return ErrInternal
+			return &data, ErrInternal
 		case StatusBadRequest:
-			return ErrBadRequest
+			return &data, ErrBadRequest
 		default:
-			return ErrUndefined
+			return &data, ErrUndefined
 		}
 	}
 }

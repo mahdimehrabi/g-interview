@@ -41,7 +41,6 @@ func (b broker) SaveQueue() {
 
 func (b broker) savingWorker() {
 	for {
-		fmt.Println(len(b.queue))
 		msg := <-b.queue
 		id := uuid.New().String()
 		socket := b.sockets[utils.RandomNumber(len(b.sockets)-1)]
