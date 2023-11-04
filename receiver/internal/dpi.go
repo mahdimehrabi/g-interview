@@ -16,7 +16,7 @@ var DPI *dpi
 
 type dpi struct {
 	BrokerSockets    []*broker.Socket
-	BrokerRepository message.Message //broker repository
+	BrokerRepository message.Message // broker repository
 }
 
 func SetupDPI(env *infrastructures.Env) {
@@ -25,7 +25,7 @@ func SetupDPI(env *infrastructures.Env) {
 		brokerSockets[i] = broker.NewSocket(env.BrokerAddress)
 	}
 	DPI = &dpi{
-		BrokerSockets:    brokerSockets, //maybe our service use this sockets for other purposes than sending msgs to broker
+		BrokerSockets:    brokerSockets, // maybe our service use this sockets for other purposes than sending msgs to broker
 		BrokerRepository: message.NewBroker(brokerSockets),
 	}
 }

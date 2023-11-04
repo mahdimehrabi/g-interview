@@ -3,15 +3,18 @@ package message
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/google/uuid"
 	brokerSocket "github.com/mahdimehrabi/graph-interview/receiver/external/broker"
 	"github.com/mahdimehrabi/graph-interview/receiver/external/utils"
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
-	"time"
 )
 
-const workerCount = 10
-const saveMessageMethod = "save_message"
+const (
+	workerCount       = 10
+	saveMessageMethod = "save_message"
+)
 
 var ErrResourceNotAvailable = errors.New("resource is not available")
 
@@ -42,9 +45,9 @@ func (b broker) savingWorker() {
 		socket := b.sockets[utils.RandomNumber(len(b.sockets)-1)]
 
 		if err := socket.SendWaitJSON(msg, saveMessageMethod, id); err != nil {
-			fmt.Printf("failed to save message %s trying again,err:%s", msg, err.Error())
-			b.queue <- msg                     //add msg to end of the queue in case of error
-			time.Sleep(time.Millisecond * 100) //socket resend cool down
+			fmt.Printf("failed to save message %s trying again,err:%s", id, err.Error())
+			b.queue <- msg                     // add msg to end of the queue in case of error
+			time.Sleep(time.Millisecond * 100) // socket resend cool down
 			continue
 		}
 		fmt.Printf("message %s saved succesfuly🥳 \n", id)

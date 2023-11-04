@@ -2,11 +2,11 @@ package message
 
 import (
 	"encoding/json"
-	"github.com/mahdimehrabi/graph-interview/receiver/internal"
 	"net/http"
 
 	"github.com/mahdimehrabi/graph-interview/receiver/application/http/dto"
 	"github.com/mahdimehrabi/graph-interview/receiver/application/http/response"
+	"github.com/mahdimehrabi/graph-interview/receiver/internal"
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/service/message"
 )
 

@@ -78,7 +78,7 @@ func (s *Socket) SendWaitJSON(data any, method string, msgID string) error {
 		s.connected = false
 		return err
 	}
-	//get response
+	// get response
 	return s.getResult(msgID)
 }
 
@@ -88,7 +88,7 @@ func (s *Socket) getResult(msgID string) error {
 		s.getResultCond.Wait()
 		data, ok := s.results[msgID]
 		if !ok {
-			//its result of another request(pass)
+			// its result of another request(pass)
 			s.getResultCond.L.Unlock()
 			continue
 		}
