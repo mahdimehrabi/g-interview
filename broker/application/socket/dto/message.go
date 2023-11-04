@@ -4,7 +4,7 @@ import "github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 
 type MessageReq struct {
 	Message    string `json:"message"`
-	ReceivedAt string `json:"ReceivedAt"`
+	ReceivedAt int    `json:"ReceivedAt"`
 }
 
 func (m MessageReq) ToModel() *entity.Message {

@@ -5,6 +5,7 @@ import (
 	"github.com/mahdimehrabi/graph-interview/broker/application/socket/response"
 	messageRepo "github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/service/message"
+	"github.com/mitchellh/mapstructure"
 	"net"
 )
 
@@ -19,15 +20,15 @@ func NewMessage() *Message {
 }
 
 func (g Message) Save(conn net.Conn, req dto.Request) {
-	data, ok := req.Data.(dto.MessageReq)
-	if !ok {
+	msgReq := dto.MessageReq{}
+	if err := mapstructure.Decode(req.Data, &msgReq); err != nil {
 		response.BadRequestErrorResponse(conn, req.ID)
 		return
 	}
-	msgEnt := data.ToModel()
-	if err := g.messageService.Save(msgEnt); err != nil {
-		response.InternalErrorResponse(conn, req.ID)
-		return
-	}
+	//msgEnt := msgReq.ToModel()
+	//if err := g.messageService.Save(msgEnt); err != nil {
+	//	response.InternalErrorResponse(conn, req.ID)
+	//	return
+	//}
 	response.SuccessResponse(conn, nil, req.ID, "message saved successfully")
 }

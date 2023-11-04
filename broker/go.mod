@@ -4,6 +4,7 @@ go 1.21.1
 
 require (
 	github.com/joho/godotenv v1.5.1
+	github.com/mitchellh/mapstructure v1.5.0
 	github.com/stretchr/testify v1.8.4
 )
 

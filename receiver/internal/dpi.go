@@ -6,10 +6,11 @@ import (
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/repository/message"
 )
 
-// this helps increase performance/scalability because requests will send more parallel
+// this helps increase performance/scalability/reliability because requests will send more parallel and requests
+// won't send and relies on only one socket
 const socketConnectionCount = 100
 
-// singleton dependency injection
+// DPI singleton dependency injection
 // for instances that use limited resources
 var DPI *dpi
 

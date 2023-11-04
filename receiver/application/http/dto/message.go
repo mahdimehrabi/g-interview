@@ -7,7 +7,5 @@ type MessageReq struct {
 }
 
 func (m MessageReq) ToModel() *entity.Message {
-	return &entity.Message{
-		Message: m.Message,
-	}
+	return entity.NewMessage(m.Message)
 }
