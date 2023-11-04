@@ -8,7 +8,7 @@ import (
 
 // this helps increase performance/scalability/reliability because requests will send more parallel and requests
 // won't send and relies on only one socket
-const socketConnectionCount = 100
+const socketConnectionCount = 1000
 
 // DPI singleton dependency injection
 // for instances that use limited resources

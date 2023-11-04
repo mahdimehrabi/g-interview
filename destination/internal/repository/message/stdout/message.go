@@ -1,9 +1,9 @@
 package stdout
 
 import (
-	"fmt"
 	"github.com/mahdimehrabi/graph-interview/destination/internal/entity"
 	msgRepo "github.com/mahdimehrabi/graph-interview/destination/internal/repository/message"
+	"github.com/rs/zerolog/log"
 	"sync"
 )
 
@@ -23,7 +23,7 @@ func (r *message) SaveAnalyze(message *entity.Message) error {
 	r.ByteSize += int64(len([]byte(message.Message)))
 	r.Count++
 	r.lk.Unlock()
-	fmt.Printf("message %s saved 🔅\n", message.Message)
-	fmt.Printf("total size of messages %d total counts of messages %d ⚓\n", r.ByteSize, r.Count)
+	log.Printf("message %s saved 🔅\n", message.Message)
+	log.Printf("total size of messages %d total counts of messages %d ⚓\n", r.ByteSize, r.Count)
 	return nil
 }

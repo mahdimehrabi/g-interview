@@ -2,18 +2,17 @@ package message
 
 import (
 	"errors"
-	"fmt"
+	"github.com/google/uuid"
 	destinationSocket "github.com/mahdimehrabi/graph-interview/broker/external/destination"
 	"github.com/mahdimehrabi/graph-interview/broker/external/utils"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
+	"github.com/rs/zerolog/log"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 const (
-	workerCount          = 10
+	workerCount          = 50
 	saveMessageMethod    = "save_message"
 	saveDeadlineDuration = 5 * time.Second
 )
@@ -50,17 +49,16 @@ func (b destination) savingWorker() {
 		done := make(chan bool)
 		go func(ch chan bool) {
 			if _, err := socket.SendWaitJSON(msg, saveMessageMethod, id); err != nil {
-				fmt.Printf("failed to save message %s trying again,err:%s", id, err.Error())
-				time.Sleep(time.Millisecond * 100) // socket resend cool down
+				log.Printf("failed to save message %s trying again,err:%s", id, err.Error())
 				return
 			}
 			done <- true
 		}(done)
 		select {
 		case <-done:
-			fmt.Printf("message %s saved succesfuly🥳 \n", msg.Message)
+			log.Printf("message %s saved succesfuly🥳 \n", msg.Message)
 		case <-deadline.C: //deadline exceeded
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(1 * time.Microsecond) // socket resend cool down
 			b.queue <- msg
 		}
 	}

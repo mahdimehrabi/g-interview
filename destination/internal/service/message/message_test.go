@@ -16,13 +16,13 @@ func TestMessage_Save(t *testing.T) {
 
 	sampleMessage := entity.NewMessage("sample message!")
 
-	mockMessage.On("Save", sampleMessage).Return(nil)
+	mockMessage.On("SaveAnalyze", sampleMessage).Return(nil)
 
 	err := messageInstance.Save(sampleMessage)
 
 	assert.Nil(t, err)
 
-	mockMessage.AssertCalled(t, "Save", sampleMessage)
+	mockMessage.AssertCalled(t, "SaveAnalyze", sampleMessage)
 }
 
 func TestMessage_Save_RepoError(t *testing.T) {
@@ -32,11 +32,11 @@ func TestMessage_Save_RepoError(t *testing.T) {
 
 	sampleMessage := entity.NewMessage("sample message!")
 
-	mockMessage.On("Save", sampleMessage).Return(errors.New("error"))
+	mockMessage.On("SaveAnalyze", sampleMessage).Return(errors.New("error"))
 
 	err := messageInstance.Save(sampleMessage)
 
 	assert.ErrorIs(t, err, ErrMessageInternal)
 
-	mockMessage.AssertCalled(t, "Save", sampleMessage)
+	mockMessage.AssertCalled(t, "SaveAnalyze", sampleMessage)
 }

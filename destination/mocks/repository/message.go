@@ -11,7 +11,7 @@ type MockMessage struct {
 }
 
 // Save is a mock implementation for the Save method
-func (m *MockMessage) Save(message *entity.Message) error {
+func (m *MockMessage) SaveAnalyze(message *entity.Message) error {
 	args := m.Called(message)
 	return args.Error(0)
 }

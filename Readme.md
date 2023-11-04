@@ -1,4 +1,19 @@
 # Thanks for considering me in your job applicant interviews. 🤍🙏
+![logo](./logo.png)
+# Setup
+in every microservice you see a `env.example` copy a new file from them with name `.env`
+now you can run microservices 
+
+# Benchmark and sender 
+go inside sender directory and run `go run main.go -n 10` 
+`-n` is number of requests <br>
+my system results for 1 million requests: <br>
+```go
+Successful requests: 10000
+Failed requests: 0
+Benchmark: 7.059616996s
+```
+
 
 # Scalability 
 To improve performance we use a queue/worker pattern for sending messages to next service. this pattern has helped me for holding up to 10000 messages in case of disconnecting other services that you requested.<br><br>
