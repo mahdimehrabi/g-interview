@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	workerCount       = 10
-	saveMessageMethod = "save_message"
+	workerCount          = 10
+	saveMessageMethod    = "save_message"
+	saveDeadlineDuration = 5 * time.Second
 )
 
 var ErrResourceNotAvailable = errors.New("resource is not available")
@@ -40,17 +41,28 @@ func (b broker) SaveQueue() {
 
 func (b broker) savingWorker() {
 	for {
+		fmt.Println(len(b.queue))
 		msg := <-b.queue
 		id := uuid.New().String()
 		socket := b.sockets[utils.RandomNumber(len(b.sockets)-1)]
 
-		if err := socket.SendWaitJSON(msg, saveMessageMethod, id); err != nil {
-			fmt.Printf("failed to save message %s trying again,err:%s", id, err.Error())
-			b.queue <- msg                     // add msg to end of the queue in case of error
-			time.Sleep(time.Millisecond * 100) // socket resend cool down
-			continue
+		deadline := time.NewTicker(saveDeadlineDuration)
+		done := make(chan bool)
+		go func(ch chan bool) {
+			if _, err := socket.SendWaitJSON(msg, saveMessageMethod, id); err != nil {
+				fmt.Printf("failed to save message %s trying again,err:%s", id, err.Error())
+				time.Sleep(time.Millisecond * 100) // socket resend cool down
+				return
+			}
+			done <- true
+		}(done)
+		select {
+		case <-done:
+			fmt.Printf("message %s saved succesfuly🥳 \n", msg.Message)
+		case <-deadline.C: //deadline exceeded
+			time.Sleep(100 * time.Millisecond)
+			b.queue <- msg
 		}
-		fmt.Printf("message %s saved succesfuly🥳 \n", msg.Message)
 	}
 }
 
