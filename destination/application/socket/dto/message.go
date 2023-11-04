@@ -9,6 +9,7 @@ type MessageReq struct {
 
 func (m MessageReq) ToModel() *entity.Message {
 	return &entity.Message{
-		Message: m.Message,
+		Message:    m.Message,
+		ReceivedAt: m.ReceivedAt,
 	}
 }

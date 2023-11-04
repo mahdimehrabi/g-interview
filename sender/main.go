@@ -77,7 +77,7 @@ func main() {
 			fmt.Printf("Received a non-OK response: %d for item:%d\n", resp.StatusCode, i)
 			failedRequests++
 		}
-		time.Sleep(400 * time.Nanosecond)
+		time.Sleep(420 * time.Nanosecond)
 	}
 	end := time.Now()
 	fmt.Printf("Successful requests: %d\n", successfulRequests)

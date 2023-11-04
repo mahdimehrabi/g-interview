@@ -56,7 +56,7 @@ func (b broker) savingWorker() {
 		}(done)
 		select {
 		case <-done:
-			log.Printf("message %s saved succesfuly🥳 \n", msg.Message)
+			log.Printf("message with timestamp %d saved successfully🥳 \n", msg.ReceivedAt)
 		case <-deadline.C: //deadline exceeded
 			time.Sleep(1 * time.Microsecond)
 			b.queue <- msg

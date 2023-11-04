@@ -2,6 +2,7 @@ package message
 
 import (
 	"errors"
+
 	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
 	"github.com/rs/zerolog/log"
@@ -21,7 +22,7 @@ func NewMessage(messageRepo message.Message) *Message {
 
 func (m Message) Save(msg *entity.Message) error {
 	if err := m.messageRepo.Save(msg); err != nil {
-		log.Printf("error happend in sending message to destination: %s", err.Error())
+		log.Printf("error happened in sending message to destination: %s", err.Error())
 		return ErrMessageInternal
 	}
 	return nil

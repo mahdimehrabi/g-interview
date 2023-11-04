@@ -2,10 +2,11 @@ package socket
 
 import (
 	"encoding/json"
+	"net"
+
 	"github.com/mahdimehrabi/graph-interview/destination/application/socket/dto"
 	infrastructures "github.com/mahdimehrabi/graph-interview/destination/internal/infrastructure"
 	"github.com/rs/zerolog/log"
-	"net"
 )
 
 func Handle(conn net.Conn) {

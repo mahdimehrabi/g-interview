@@ -1,9 +1,10 @@
 package general
 
 import (
+	"net"
+
 	"github.com/mahdimehrabi/graph-interview/broker/application/socket/dto"
 	"github.com/mahdimehrabi/graph-interview/broker/application/socket/response"
-	"net"
 )
 
 type General struct{}

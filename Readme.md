@@ -7,11 +7,12 @@ now you can run microservices
 # Benchmark and sender 
 go inside sender directory and run `go run main.go -n 10` 
 `-n` is number of requests <br>
-my system results for 1 million requests: <br>
+the sender will send requests 1 per 420ns <br>
+my system results for 100k requests: <br>
 ```go
-Successful requests: 10000
+Successful requests: 100000  //100k
 Failed requests: 0
-Benchmark: 7.059616996s
+Benchmark: 1m10.53930694s 
 ```
 
 

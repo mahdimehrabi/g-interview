@@ -1,12 +1,13 @@
 package message
 
 import (
+	"net"
+
 	"github.com/mahdimehrabi/graph-interview/destination/application/socket/dto"
 	"github.com/mahdimehrabi/graph-interview/destination/application/socket/response"
 	"github.com/mahdimehrabi/graph-interview/destination/internal"
 	"github.com/mahdimehrabi/graph-interview/destination/internal/service/message"
 	"github.com/mitchellh/mapstructure"
-	"net"
 )
 
 type Message struct {

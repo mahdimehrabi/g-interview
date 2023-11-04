@@ -2,13 +2,14 @@ package message
 
 import (
 	"errors"
+	"time"
+
 	"github.com/google/uuid"
 	destinationSocket "github.com/mahdimehrabi/graph-interview/broker/external/destination"
 	"github.com/mahdimehrabi/graph-interview/broker/external/utils"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 	"github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
 	"github.com/rs/zerolog/log"
-	"time"
 )
 
 const (
@@ -56,8 +57,8 @@ func (b destination) savingWorker() {
 		}(done)
 		select {
 		case <-done:
-			log.Printf("message %s saved succesfuly🥳 \n", msg.Message)
-		case <-deadline.C: //deadline exceeded
+			log.Printf("message with timestamp %d saved successfully🥳 \n", msg.ReceivedAt)
+		case <-deadline.C: // deadline exceeded
 			time.Sleep(1 * time.Microsecond) // socket resend cool down
 			b.queue <- msg
 		}

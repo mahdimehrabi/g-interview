@@ -4,13 +4,13 @@ import "time"
 
 type Message struct {
 	Message    string
-	ReceivedAt int64
+	ReceivedAt int
 	// extra entity props
 }
 
 func NewMessage(msg string) *Message {
 	return &Message{
-		ReceivedAt: time.Now().Unix(),
+		ReceivedAt: int(time.Now().Unix()),
 		Message:    msg,
 	}
 }
