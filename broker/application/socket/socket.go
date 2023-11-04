@@ -3,8 +3,8 @@ package socket
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mahdimehrabi/graph-interview/receiver/application/socket/dto"
-	infrastructures "github.com/mahdimehrabi/graph-interview/receiver/internal/infrastructure"
+	"github.com/mahdimehrabi/graph-interview/broker/application/socket/dto"
+	infrastructures "github.com/mahdimehrabi/graph-interview/broker/internal/infrastructure"
 	"net"
 )
 

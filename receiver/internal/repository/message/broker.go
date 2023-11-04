@@ -2,6 +2,7 @@ package message
 
 import (
 	"errors"
+	"fmt"
 	"github.com/google/uuid"
 	extBroker "github.com/mahdimehrabi/graph-interview/receiver/external/broker"
 	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
@@ -36,10 +37,14 @@ func (b broker) SaveQueue() {
 func (b broker) savingWorker() {
 	for {
 		msg := <-b.queue
-		if err := b.socket.SendWaitJSON(msg, saveMessageMethod, uuid.New().String()); err != nil {
+		id := uuid.New().String()
+		if err := b.socket.SendWaitJSON(msg, saveMessageMethod, id); err != nil {
+			fmt.Printf("failed to save message %s trying again,err:%s", msg, err.Error())
 			b.queue <- msg                     //add msg to end of the queue in case of error
 			time.Sleep(time.Millisecond * 100) //socket resend cool down
+			continue
 		}
+		fmt.Printf("message %s saved succesfuly🥳 \n", id)
 	}
 }
 

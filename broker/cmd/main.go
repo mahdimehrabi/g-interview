@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/mahdimehrabi/graph-interview/receiver/application/socket"
-	"github.com/mahdimehrabi/graph-interview/receiver/internal"
-	infrastructures "github.com/mahdimehrabi/graph-interview/receiver/internal/infrastructure"
+	"github.com/mahdimehrabi/graph-interview/broker/application/socket"
+	"github.com/mahdimehrabi/graph-interview/broker/internal"
+	infrastructures "github.com/mahdimehrabi/graph-interview/broker/internal/infrastructure"
 )
 
 func main() {

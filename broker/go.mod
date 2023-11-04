@@ -1,4 +1,4 @@
-module github.com/mahdimehrabi/graph-interview/receiver
+module github.com/mahdimehrabi/graph-interview/broker
 
 go 1.21.1
 

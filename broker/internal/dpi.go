@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/mahdimehrabi/graph-interview/receiver/external/broker"
-	infrastructures "github.com/mahdimehrabi/graph-interview/receiver/internal/infrastructure"
+	"github.com/mahdimehrabi/graph-interview/broker/external/broker"
+	infrastructures "github.com/mahdimehrabi/graph-interview/broker/internal/infrastructure"
 )
 
 // singleton dependency injection

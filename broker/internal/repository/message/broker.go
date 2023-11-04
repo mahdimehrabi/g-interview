@@ -1,9 +1,9 @@
 package message
 
 import (
-	extBroker "github.com/mahdimehrabi/graph-interview/receiver/external/broker"
-	"github.com/mahdimehrabi/graph-interview/receiver/internal"
-	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
+	extBroker "github.com/mahdimehrabi/graph-interview/broker/external/broker"
+	"github.com/mahdimehrabi/graph-interview/broker/internal"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 )
 
 type broker struct {

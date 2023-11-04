@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
-	"github.com/mahdimehrabi/graph-interview/receiver/mocks/repository"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
+	"github.com/mahdimehrabi/graph-interview/broker/mocks/repository"
 	"github.com/stretchr/testify/assert"
 )
 

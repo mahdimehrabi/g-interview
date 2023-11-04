@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 	"github.com/stretchr/testify/mock"
 )
 

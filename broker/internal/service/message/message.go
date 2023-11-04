@@ -3,8 +3,8 @@ package message
 import (
 	"errors"
 
-	"github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
-	"github.com/mahdimehrabi/graph-interview/receiver/internal/repository/message"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/entity"
+	"github.com/mahdimehrabi/graph-interview/broker/internal/repository/message"
 )
 
 var ErrMessageInternal = errors.New("error")

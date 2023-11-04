@@ -1,9 +1,9 @@
 package socket
 
 import (
-	generalController "github.com/mahdimehrabi/graph-interview/receiver/application/socket/controller/general"
-	"github.com/mahdimehrabi/graph-interview/receiver/application/socket/controller/message"
-	"github.com/mahdimehrabi/graph-interview/receiver/application/socket/dto"
+	generalController "github.com/mahdimehrabi/graph-interview/broker/application/socket/controller/general"
+	"github.com/mahdimehrabi/graph-interview/broker/application/socket/controller/message"
+	"github.com/mahdimehrabi/graph-interview/broker/application/socket/dto"
 	"net"
 )
 
@@ -14,9 +14,9 @@ func HandleRoute(conn net.Conn, req dto.Request) {
 		msg.Save(conn, req)
 	case "ping":
 		g := generalController.NewGeneral() //transient dependency injection one instance per endpoint call to get best performance
-		g.Ping(conn)
+		g.Ping(conn, req)
 	default:
 		g := generalController.NewGeneral() //transient dependency injection one instance per endpoint call to get best performance
-		g.NotDefined(conn)
+		g.NotDefined(conn, req)
 	}
 }

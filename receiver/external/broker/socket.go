@@ -2,18 +2,32 @@ package broker
 
 import (
 	"encoding/json"
+	"errors"
 	"net"
+	"sync"
+)
+
+var (
+	ErrForbidden  = errors.New("access denied")
+	ErrInternal   = errors.New("internal server error in broker")
+	ErrBadRequest = errors.New("bad request,please check your request data")
+	ErrUndefined  = errors.New("undefined error")
 )
 
 type Socket struct {
-	address   string
-	conn      net.Conn
-	connected bool
+	address       string
+	conn          net.Conn
+	connected     bool
+	results       map[string]Result
+	getResultCond *sync.Cond
 }
 
 func NewSocket(address string) *Socket {
 	return &Socket{
-		address: address,
+		address:       address,
+		connected:     false,
+		results:       make(map[string]Result, 0),
+		getResultCond: sync.NewCond(&sync.Mutex{}),
 	}
 }
 
@@ -24,12 +38,28 @@ func (s *Socket) Connect() error {
 	}
 	s.conn = conn
 	s.connected = true
+	go s.SaveResults()
 	return nil
 }
 
 func (s *Socket) Disconnect() error {
 	s.connected = false
 	return s.conn.Close()
+}
+
+func (s *Socket) SaveResults() {
+	for {
+		if !s.connected {
+			return
+		}
+		d := json.NewDecoder(s.conn)
+		result := Result{}
+		if err := d.Decode(&result); err != nil {
+			continue
+		}
+		s.results[result.ID] = result
+		s.getResultCond.Broadcast()
+	}
 }
 
 func (s *Socket) SendWaitJSON(data any, method string, msgID string) error {
@@ -48,6 +78,34 @@ func (s *Socket) SendWaitJSON(data any, method string, msgID string) error {
 		s.connected = false
 		return err
 	}
+	//get response
+	return s.getResult(msgID)
+}
 
-	return nil
+func (s *Socket) getResult(msgID string) error {
+	for {
+		s.getResultCond.L.Lock()
+		s.getResultCond.Wait()
+		data, ok := s.results[msgID]
+		if !ok {
+			//its result of another request(pass)
+			s.getResultCond.L.Unlock()
+			continue
+		}
+
+		delete(s.results, msgID)
+		s.getResultCond.L.Unlock()
+		switch data.Status {
+		case StatusOk:
+			return nil
+		case StatusForbidden:
+			return ErrForbidden
+		case StatusInternalError:
+			return ErrInternal
+		case StatusBadRequest:
+			return ErrBadRequest
+		default:
+			return ErrUndefined
+		}
+	}
 }

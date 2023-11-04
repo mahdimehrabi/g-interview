@@ -1,7 +1,8 @@
 package general
 
 import (
-	"github.com/mahdimehrabi/graph-interview/receiver/application/socket/response"
+	"github.com/mahdimehrabi/graph-interview/broker/application/socket/dto"
+	"github.com/mahdimehrabi/graph-interview/broker/application/socket/response"
 	"net"
 )
 
@@ -11,10 +12,10 @@ func NewGeneral() *General {
 	return &General{}
 }
 
-func (g General) Ping(conn net.Conn) {
-	response.SuccessResponse(conn, map[string]string{"ping": "pong🏓"}, "pong")
+func (g General) Ping(conn net.Conn, req dto.Request) {
+	response.SuccessResponse(conn, map[string]string{"ping": "pong🏓"}, "pong", req.ID)
 }
 
-func (g General) NotDefined(conn net.Conn) {
-	response.SuccessResponse(conn, nil, "method not defined")
+func (g General) NotDefined(conn net.Conn, req dto.Request) {
+	response.BadRequestErrorResponse(conn, req.ID)
 }

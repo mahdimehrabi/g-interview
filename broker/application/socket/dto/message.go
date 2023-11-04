@@ -1,9 +1,10 @@
 package dto
 
-import "github.com/mahdimehrabi/graph-interview/receiver/internal/entity"
+import "github.com/mahdimehrabi/graph-interview/broker/internal/entity"
 
 type MessageReq struct {
-	Message string `json:"message"`
+	Message    string `json:"message"`
+	ReceivedAt string `json:"ReceivedAt"`
 }
 
 func (m MessageReq) ToModel() *entity.Message {
